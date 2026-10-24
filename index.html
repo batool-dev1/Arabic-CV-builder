@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مولد السير الذاتية الاحترافية - Arabic CV Builder</title>
+    <!-- Bootstrap 5 RTL CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #1e293b;
+            --accent-color: #0d9488;
+            --accent-hover: #0f766e;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* Top Header Navigation */
+        .app-header {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #ffffff;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .brand-title {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-title i {
+            color: var(--accent-color);
+        }
+
+        /* Main Container Layout */
+        .main-wrapper {
+            padding: 2rem 0;
+        }
+
+        .editor-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 1.25rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .section-header i {
+            color: var(--accent-color);
+        }
+
+        /* Input Controls & Custom Style */
+        .form-label {
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: #334155;
+            margin-bottom: 0.35rem;
+        }
+
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            padding: 0.6rem 0.85rem;
+            font-size: 0.92rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+        }
+
+        /* Smart Suggestions Buttons */
+        .suggestions-box {
+            background-color: #f1f5f9;
+            border-radius: 10px;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .suggestion-chip {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 20px;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.8rem;
+            color: #334155;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin: 3px;
+            transition: all 0.2s ease;
+        }
+
+        .suggestion-chip:hover {
+            background: var(--accent-color);
+            color: #ffffff;
+            border-color: var(--accent-color);
+        }
+
+        /* Dynamic Item Cards (Experience & Education) */
+        .dynamic-item {
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .btn-remove-item {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .btn-remove-item:hover {
+            background: #ef4444;
+            color: #ffffff;
+        }
+
+        .btn-add-more {
+            background: rgba(13, 148, 136, 0.1);
+            color: var(--accent-color);
+            border: 1px dashed var(--accent-color);
+            border-radius: 10px;
+            width: 100%;
+            padding: 0.6rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .btn-add-more:hover {
+            background: var(--accent-color);
+            color: #ffffff;
+        }
+
+        /* Action Buttons */
+        .btn-accent {
+            background-color: var(--accent-color);
+            color: white;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .btn-accent:hover {
+            background-color: var(--accent-hover);
+            color: white;
+        }
+
+        /* CV PREVIEW STYLES */
+        .cv-preview-container {
+            position: sticky;
+            top: 20px;
+        }
+
+        .cv-paper {
+            background: #ffffff;
+            border-radius: 4px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+            min-height: 842px; /* A4 Ratio Look */
+            color: #1e293b;
+            transition: all 0.3s ease;
+        }
+
+        /* Template 1: Modern Minimal */
+        .cv-paper.template-modern {
+            border-top: 8px solid var(--accent-color);
+        }
+
+        .cv-paper.template-modern .cv-name {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 0.2rem;
+        }
+
+        .cv-paper.template-modern .cv-job {
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .cv-paper.template-modern .cv-contact-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .cv-paper.template-modern .cv-section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cv-paper.template-modern .cv-section-title::after {
+            content: "";
+            flex: 1;
+            height: 2px;
+            background-color: #f1f5f9;
+            margin-right: 10px;
+        }
+
+        /* Template 2: Executive Classic */
+        .cv-paper.template-classic {
+            background: #ffffff;
+        }
+
+        .cv-paper.template-classic .cv-header-classic {
+            background: var(--primary-color);
+            color: #ffffff;
+            margin: -2.5rem -2.5rem 1.5rem -2.5rem;
+            padding: 2rem 2.5rem;
+        }
+
+        .cv-paper.template-classic .cv-name {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .cv-paper.template-classic .cv-job {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .cv-paper.template-classic .cv-contact-bar {
+            color: #cbd5e1;
+            font-size: 0.85rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .cv-paper.template-classic .cv-section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 4px;
+            margin-bottom: 0.8rem;
+        }
+
+        /* Skills Badges in Preview */
+        .cv-skill-badge {
+            background: #f1f5f9;
+            color: var(--primary-color);
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 0.3rem 0.7rem;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 6px;
+            margin-left: 6px;
+        }
+
+        .cv-item-title {
+            font-weight: 700;
+            font-size: 0.98rem;
+            color: var(--primary-color);
+        }
+
+        .cv-item-subtitle {
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: var(--accent-color);
+        }
+
+        .cv-item-date {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .cv-item-desc {
+            font-size: 0.88rem;
+            color: #334155;
+            white-space: pre-line;
+            margin-top: 0.3rem;
+        }
+
+        /* PRINT STYLES (PURE PDF EXPORT) */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+                padding: 0 !important;
+            }
+            
+            .no-print {
+                display: none !important;
+            }
+
+            .main-wrapper {
+                padding: 0 !important;
+            }
+
+            .cv-preview-col {
+                width: 100% !important;
+                max-width: 100% !important;
+                flex: 0 0 100% !important;
+            }
+
+            .cv-paper {
+                box-shadow: none !important;
+                padding: 0 !important;
+                min-height: auto !important;
+            }
+
+            .cv-paper.template-classic .cv-header-classic {
+                margin: 0 0 1.5rem 0 !important;
+                padding: 1.5rem !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .cv-paper.template-modern {
+                border-top: 6px solid var(--accent-color) !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="app-header no-print">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="brand-title">
+                <i class="fa-solid fa-file-invoice"></i>
+                <span>مولد السير الذاتية الاحترافية</span>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-light btn-sm rounded-pill px-3" onclick="fillSampleData()">
+                    <i class="fa-solid fa-wand-magic-sparkles me-1"></i> تعبئة بيانات تجريبية
+                </button>
+                <button class="btn btn-accent btn-sm rounded-pill px-3" onclick="window.print()">
+                    <i class="fa-solid fa-print me-1"></i> طباعة / حفظ كـ PDF
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Application Interface -->
+    <div class="container main-wrapper">
+        <div class="row g-4">
+            
+            <!-- LEFT PANEL: Form Controls (Right in RTL layout) -->
+            <div class="col-lg-6 no-print">
+                
+                <!-- Template & Style Switcher -->
+                <div class="editor-card">
+                    <div class="section-header">
+                        <i class="fa-solid fa-palette"></i>
+                        <span>اختر نمط وتصميم السيرة الذاتية</span>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <button class="btn btn-outline-dark w-100 py-2 active" id="btn-tmpl-modern" onclick="setTemplate('modern')">
+                                <i class="fa-solid fa-grip-lines me-1"></i> عصري أنيق (Modern)
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-outline-dark w-100 py-2" id="btn-tmpl-classic" onclick="setTemplate('classic')">
+                                <i class="fa-solid fa-user-tie me-1"></i> تنفيذي كلاسيكي (Classic)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personal Information -->
+                <div class="editor-card">
+                    <div class="section-header">
+                        <i class="fa-solid fa-user"></i>
+                        <span>المعلومات الشخصية</span>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">الاسم الكامل</label>
+                            <input type="text" id="fullName" class="form-control" placeholder="مثال: بتول أحمد" oninput="updatePreview()">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">المسمى الوظيفي</label>
+                            <input type="text" id="jobTitle" class="form-control" placeholder="مثال: مهندسة برمجيات / AI Engineer" oninput="updatePreview()">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">البريد الإلكتروني</label>
+                            <input type="email" id="email" class="form-control" placeholder="name@example.com" oninput="updatePreview()">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">رقم الهاتف</label>
+                            <input type="text" id="phone" class="form-control" placeholder="+962 79 000 0000" oninput="updatePreview()">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">المدينة / البلد</label>
+                            <input type="text" id="location" class="form-control" placeholder="عمان، الأردن" oninput="updatePreview()">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">رابط LinkedIn</label>
+                            <input type="text" id="linkedin" class="form-control" placeholder="linkedin.com/in/username" oninput="updatePreview()">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">رابط GitHub / المعرض الشخصي</label>
+                            <input type="text" id="github" class="form-control" placeholder="github.com/username" oninput="updatePreview()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Professional Summary & Smart Suggestions -->
+                <div class="editor-card">
+                    <div class="section-header">
+                        <i class="fa-solid fa-file-lines"></i>
+                        <span>النبذة التعريفية (Professional Summary)</span>
+                    </div>
+                    <div class="mb-2">
+                        <textarea id="summary" class="form-control" rows="4" placeholder="اكتب نبذة مختصرة عن خبراتك وطموحك المهني..." oninput="updatePreview()"></textarea>
+                    </div>
+                    
+                    <!-- Smart Arabic Suggestions Panel -->
+                    <div class="suggestions-box">
+                        <div class="text-muted small mb-2 font-weight-bold">
+                            <i class="fa-solid fa-lightbulb text-warning me-1"></i> اقتراحات عبارات جاهزة بالعربي (انقر للإضافة المباشرة):
+                        </div>
+                        <div class="d-flex flex-wrap">
+                            <span class="suggestion-chip" onclick="insertSuggestion('مهندسة برمجيات شغوفة بتطوير تطبيقات الويب عالية الأداء وحلول الذكاء الاصطناعي مع إتقان للغات Python و JavaScript.')">
+                                💻 مهندس برمجيات
+                            </span>
+                            <span class="suggestion-chip" onclick="insertSuggestion('متخصصة في إدارة وتصميم وتطوير شبكات وأنظمة السيرفرات بموثوقية عالية وخبرة في التحول الرقمي.')">
+                                🖥️ سيرفرات وشبكات
+                            </span>
+                            <span class="suggestion-chip" onclick="insertSuggestion('محللة بيانات ذات خبرة في بناء لوحات التحكم وتحويل البيانات المعقدة إلى قرارات استراتيجية دقيقة.')">
+                                📊 تحليل بيانات
+                            </span>
+                            <span class="suggestion-chip" onclick="insertSuggestion('صانعة محتوى ومسوقة رقمية بخبرة في إدارة الحملات الإعلانية وتحسين محركات البحث وإدارة منصات التواصل.')">
+                                🚀 تسويق وإدارة
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Work Experience (Dynamic) -->
+                <div class="editor-card">
+                    <div class="section-header">
+                        <i class="fa-solid fa-briefcase"></i>
+                        <span>الخبرات العملية</span>
+                    </div>
+                    <div id="experienceContainer">
+                        <!-- Dynamic Work Items Inserted Here -->
+                    </div>
+                    <button class="btn btn-add-more" onclick="addExperience()">
+                        <i class="fa-solid fa-plus me-1"></i> إضافة خبرة عملية جديدة
+                    </button>
+                </div>
+
+                <!-- Education (Dynamic) -->
+                <div class="editor-card">
+                    <div class="section-header">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <span>التعليم والشهادات</span>
+                    </div>
+                    <div id="educationContainer">
+                        <!-- Dynamic Education Items Inserted Here -->
+                    </div>
+                    <button class="btn btn-add-more" onclick="addEducation()">
+                        <i class="fa-solid fa-plus me-1"></i> إضافة مؤهل تعليمي جديد
+                    </button>
+                </div>
+
+                <!-- Skills & Tools -->
+                <div class="editor-card">
+                    <div class="section-header">
+                        <i class="fa-solid fa-gears"></i>
+                        <span>المهارات والتقنيات</span>
+                    </div>
+                    <div>
+                        <label class="form-label">أدخل المهارات (افصل بين كل مهارة بفاصلة `,`):</label>
+                        <input type="text" id="skillsInput" class="form-control" placeholder="مثال: Python, Flask, SQL, Active Directory, Git, HTML/CSS" oninput="updatePreview()">
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT PANEL: Live CV Document Preview (Left in RTL Layout) -->
+            <div class="col-lg-6 cv-preview-col">
+                <div class="cv-preview-container">
+                    <div class="d-flex justify-content-between align-items-center mb-3 no-print">
+                        <span class="fw-bold text-muted small"><i class="fa-solid fa-eye me-1"></i> المعاينة الحية للسيرة الذاتية</span>
+                        <span class="badge bg-success rounded-pill px-3 py-2"><i class="fa-solid fa-check-circle me-1"></i> جاهزة للطباعة والـ ATS</span>
+                    </div>
+
+                    <!-- THE CV PAPER DOCUMENT -->
+                    <div id="cvPaper" class="cv-paper template-modern">
+                        
+                        <!-- Header Section -->
+                        <div id="cvHeaderClassicGroup">
+                            <div class="cv-name" id="prevName">اسمك الكامل</div>
+                            <div class="cv-job" id="prevJob">المسمى الوظيفي</div>
+                            <div class="cv-contact-bar" id="prevContactBar">
+                                <span id="prevEmail"><i class="fa-solid fa-envelope me-1"></i> email@example.com</span>
+                                <span id="prevPhone"><i class="fa-solid fa-phone me-1"></i> +962 7000000</span>
+                                <span id="prevLocation"><i class="fa-solid fa-location-dot me-1"></i> عمان، الأردن</span>
+                                <span id="prevLinkedin"><i class="fa-brands fa-linkedin me-1"></i> linkedin</span>
+                                <span id="prevGithub"><i class="fa-brands fa-github me-1"></i> github</span>
+                            </div>
+                        </div>
+
+                        <!-- Summary Section -->
+                        <div class="mb-4" id="prevSummarySec">
+                            <div class="cv-section-title"><i class="fa-solid fa-user-check me-1"></i> النبذة الشخصية</div>
+                            <div class="cv-item-desc" id="prevSummary">ستظهر النبذة الشخصية التي تكتبها هنا بشكل منظم واحترافي.</div>
+                        </div>
+
+                        <!-- Experience Section -->
+                        <div class="mb-4" id="prevExpSec">
+                            <div class="cv-section-title"><i class="fa-solid fa-briefcase me-1"></i> الخبرات العملية</div>
+                            <div id="prevExperienceList">
+                                <!-- Dynamic Items -->
+                            </div>
+                        </div>
+
+                        <!-- Education Section -->
+                        <div class="mb-4" id="prevEduSec">
+                            <div class="cv-section-title"><i class="fa-solid fa-graduation-cap me-1"></i> التعليم والشهادات</div>
+                            <div id="prevEducationList">
+                                <!-- Dynamic Items -->
+                            </div>
+                        </div>
+
+                        <!-- Skills Section -->
+                        <div class="mb-3" id="prevSkillsSec">
+                            <div class="cv-section-title"><i class="fa-solid fa-code me-1"></i> المهارات والتقنيات</div>
+                            <div id="prevSkillsList">
+                                <!-- Dynamic Badges -->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        let currentTemplate = 'modern';
+
+        // Initialize App
+        window.onload = function() {
+            addExperience(); // Add one initial empty item
+            addEducation();  // Add one initial empty item
+            updatePreview();
+        };
+
+        // Switch Resume Template
+        function setTemplate(style) {
+            currentTemplate = style;
+            const paper = document.getElementById('cvPaper');
+            const btnModern = document.getElementById('btn-tmpl-modern');
+            const btnClassic = document.getElementById('btn-tmpl-classic');
+
+            if (style === 'modern') {
+                paper.className = 'cv-paper template-modern';
+                btnModern.classList.add('active');
+                btnClassic.classList.remove('active');
+            } else {
+                paper.className = 'cv-paper template-classic';
+                btnClassic.classList.add('active');
+                btnModern.classList.remove('active');
+            }
+        }
+
+        // Insert Smart Arabic Suggestions into Textarea
+        function insertSuggestion(text) {
+            const summaryBox = document.getElementById('summary');
+            summaryBox.value = text;
+            updatePreview();
+        }
+
+        // Dynamic Experience Section Handlers
+        function addExperience(company = '', title = '', dates = '', desc = '') {
+            const container = document.getElementById('experienceContainer');
+            const id = 'exp_' + Date.now() + Math.random().toString(36).substr(2, 4);
+
+            const html = `
+                <div class="dynamic-item" id="${id}">
+                    <button type="button" class="btn-remove-item" onclick="removeItem('${id}')"><i class="fa-solid fa-xmark"></i></button>
+                    <div class="row g-2">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control exp-title" placeholder="المسمى الوظيفي" value="${title}" oninput="updatePreview()">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control exp-company" placeholder="اسم الشركة / جهة العمل" value="${company}" oninput="updatePreview()">
+                        </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control exp-dates" placeholder="الفترة الزمانية (مثال: Jan 2022 - الحالي)" value="${dates}" oninput="updatePreview()">
+                        </div>
+                        <div class="col-12">
+                            <textarea class="form-control exp-desc" rows="2" placeholder="وصف المهام والانجازات..." oninput="updatePreview()">${desc}</textarea>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', html);
+            updatePreview();
+        }
+
+        // Dynamic Education Section Handlers
+        function addEducation(degree = '', school = '', dates = '') {
+            const container = document.getElementById('educationContainer');
+            const id = 'edu_' + Date.now() + Math.random().toString(36).substr(2, 4);
+
+            const html = `
+                <div class="dynamic-item" id="${id}">
+                    <button type="button" class="btn-remove-item" onclick="removeItem('${id}')"><i class="fa-solid fa-xmark"></i></button>
+                    <div class="row g-2">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control edu-degree" placeholder="الدرجة العلمية / التخصص" value="${degree}" oninput="updatePreview()">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control edu-school" placeholder="اسم الجامعة / المؤسسة" value="${school}" oninput="updatePreview()">
+                        </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control edu-dates" placeholder="سنة التخرج أو الفترة" value="${dates}" oninput="updatePreview()">
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', html);
+            updatePreview();
+        }
+
+        // Remove Dynamic Item
+        function removeItem(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.remove();
+                updatePreview();
+            }
+        }
+
+        // Real-Time Live Preview Renderer
+        function updatePreview() {
+            // Personal Info
+            const name = document.getElementById('fullName').value || 'اسمك الكامل';
+            const job = document.getElementById('jobTitle').value || 'المسمى الوظيفي';
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const location = document.getElementById('location').value;
+            const linkedin = document.getElementById('linkedin').value;
+            const github = document.getElementById('github').value;
+
+            document.getElementById('prevName').innerText = name;
+            document.getElementById('prevJob').innerText = job;
+
+            // Contact Info Render
+            let contactHTML = '';
+            if (email) contactHTML += `<span><i class="fa-solid fa-envelope me-1"></i> ${email}</span>`;
+            if (phone) contactHTML += `<span><i class="fa-solid fa-phone me-1"></i> ${phone}</span>`;
+            if (location) contactHTML += `<span><i class="fa-solid fa-location-dot me-1"></i> ${location}</span>`;
+            if (linkedin) contactHTML += `<span><i class="fa-brands fa-linkedin me-1"></i> ${linkedin}</span>`;
+            if (github) contactHTML += `<span><i class="fa-brands fa-github me-1"></i> ${github}</span>`;
+            document.getElementById('prevContactBar').innerHTML = contactHTML || '<span>أدخل معلومات التواصل في لوحة التحكم</span>';
+
+            // Summary
+            const summaryText = document.getElementById('summary').value;
+            document.getElementById('prevSummary').innerText = summaryText || 'ستظهر النبذة الشخصية هنا برقي عند كتابتها...';
+
+            // Experience Rendering
+            const expContainer = document.getElementById('prevExperienceList');
+            expContainer.innerHTML = '';
+            const expItems = document.querySelectorAll('#experienceContainer .dynamic-item');
+            
+            expItems.forEach(item => {
+                const title = item.querySelector('.exp-title').value;
+                const company = item.querySelector('.exp-company').value;
+                const dates = item.querySelector('.exp-dates').value;
+                const desc = item.querySelector('.exp-desc').value;
+
+                if (title || company) {
+                    const itemHTML = `
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <span class="cv-item-title">${title || 'المسمى الوظيفي'}</span>
+                                <span class="cv-item-date">${dates}</span>
+                            </div>
+                            <div class="cv-item-subtitle">${company}</div>
+                            ${desc ? `<div class="cv-item-desc">${desc}</div>` : ''}
+                        </div>
+                    `;
+                    expContainer.insertAdjacentHTML('beforeend', itemHTML);
+                }
+            });
+
+            // Education Rendering
+            const eduContainer = document.getElementById('prevEducationList');
+            eduContainer.innerHTML = '';
+            const eduItems = document.querySelectorAll('#educationContainer .dynamic-item');
+            
+            eduItems.forEach(item => {
+                const degree = item.querySelector('.edu-degree').value;
+                const school = item.querySelector('.edu-school').value;
+                const dates = item.querySelector('.edu-dates').value;
+
+                if (degree || school) {
+                    const itemHTML = `
+                        <div class="mb-2">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <span class="cv-item-title">${degree || 'التخصص / الشهادة'}</span>
+                                <span class="cv-item-date">${dates}</span>
+                            </div>
+                            <div class="cv-item-subtitle">${school}</div>
+                        </div>
+                    `;
+                    eduContainer.insertAdjacentHTML('beforeend', itemHTML);
+                }
+            });
+
+            // Skills Rendering
+            const skillsVal = document.getElementById('skillsInput').value;
+            const skillsContainer = document.getElementById('prevSkillsList');
+            skillsContainer.innerHTML = '';
+
+            if (skillsVal) {
+                const skillsArray = skillsVal.split(',');
+                skillsArray.forEach(skill => {
+                    const trimmed = skill.trim();
+                    if (trimmed) {
+                        skillsContainer.insertAdjacentHTML('beforeend', `<span class="cv-skill-badge">${trimmed}</span>`);
+                    }
+                });
+            } else {
+                skillsContainer.innerHTML = '<span class="text-muted small">أدخل المهارات مفصولة بفاصلة</span>';
+            }
+        }
+
+        // Preset / Sample Data Auto-Fill
+        function fillSampleData() {
+            document.getElementById('fullName').value = 'بتول الأحمد';
+            document.getElementById('jobTitle').value = 'مهندسة برمجيات وذكاء اصطناعي';
+            document.getElementById('email').value = 'batool@example.com';
+            document.getElementById('phone').value = '+962 7 9123 4567';
+            document.getElementById('location').value = 'عمان، الأردن';
+            document.getElementById('linkedin').value = 'linkedin.com/in/batool-dev';
+            document.getElementById('github').value = 'github.com/batool-dev';
+            
+            document.getElementById('summary').value = 'مهندسة برمجيات متخصصة في تطوير تطبيقات الويب الحديثة وحلول الذكاء الاصطناعي باستخدام Python و Flask. أتمتلك خبرة جيدة في إدارة السيرفرات وقواعد البيانات وتصاميم واجهات المستخدم التفاعلية.';
+            document.getElementById('skillsInput').value = 'Python, Flask, JavaScript, HTML5/CSS3, Active Directory, SQL Server, Git, Linux';
+
+            // Clear Dynamic Containers
+            document.getElementById('experienceContainer').innerHTML = '';
+            document.getElementById('educationContainer').innerHTML = '';
+
+            // Add Sample Experiences
+            addExperience(
+                'الشركة التقنية للحلول البرمجية',
+                'مهندسة برمجيات (Python/Web)',
+                '2023 - الحالي',
+                '• تطوير وإدارة لوحات تحكم الويب باستخدام Python/Flask و Bootstrap 5.\n• تحسين أداء الاستعلامات في قواعد البيانات وتقليل زمن الاستجابة بنسبة 25%.'
+            );
+            addExperience(
+                'مركز حلول الشبكات والسيرفرات',
+                'مساعدة مهندس سيرفرات وأنظمة',
+                '2022 - 2023',
+                '• المساعدة في تهيئة سيرفرات Windows Server وإدارة Active Directory.\n• إعداد النسخ الاحتياطي التلقائي ومراقبة أداء الشبكة.'
+            );
+
+            // Add Sample Education
+            addEducation('بكالوريوس هندسة برمجيات / ذكاء اصطناعي', 'الجامعة الأردنية', '2019 - 2023');
+
+            updatePreview();
+        }
+    </script>
+</body>
+</html>
